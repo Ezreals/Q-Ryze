@@ -3,7 +3,8 @@
 update log
 Q Ryze First realese 1.001 5/1
 Q information plus 1.002 5/1
-Q Ryze SAC MMA Support
+Q Ryze SAC MMA Support 1.003 5/1
+Combo Changed 1.0031 5/1
 special Thanks To HTTF!
 Author qkwlqk
 ]]
@@ -15,7 +16,7 @@ local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
 
 function updater()
-local version = "1.003"
+local version = "1.0031"
 local author = "qkwlqk"
 local SCRIPT_NAME = "Q Ryze"
 local AUTOUPDATE = true
@@ -72,7 +73,7 @@ end
 
 function OnLoad()
   lib()
-	Orbload()
+  Orbload()
   PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
   Menu()
   FindSummoners()
@@ -95,8 +96,8 @@ function Menu()
     Config:addParam("fullcombo", "SBTW", SCRIPT_PARAM_ONKEYDOWN, false, string.byte(" "))
     Config:addParam("ignite", "Ignite", SCRIPT_PARAM_ONOFF, true)
     Config:addParam("Author","Author",SCRIPT_PARAM_INFO,"qkwlqk")
-    Config:addParam("Version","Version",SCRIPT_PARAM_INFO,"1.003")
-    Config:addParam("Thanks","Special Thanks To",SCRIPT_PARAM_INFO,"HTTF")
+    Config:addParam("Version","Version",SCRIPT_PARAM_INFO,"1.0031")
+    Config:addParam("Special Thanks To","ThanksTo",SCRIPT_PARAM_INFO,"HTTF")
     Config:addParam("CHitChance","Combo Hitchance",SCRIPT_PARAM_SLICE, 1.2, 1, 3, 2)
     Config:addParam("HHitChance","Harass Hitchance",SCRIPT_PARAM_SLICE, 1.8, 1, 3, 2)
       Config:addTS(ts)
@@ -113,14 +114,14 @@ function Harass()
   if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
     if (Config.harass) then
       if (myHero:GetDistance(ts.target) <= 900) then
-              if (myHero:CanUseSpell(_Q) == READY) then
+        if (myHero:CanUseSpell(_W) == READY) then
+          CastSpell(_W, ts.target)
+        end
+        if (myHero:CanUseSpell(_Q) == READY) then
 local Pos, HitChance = HPred:GetPredict("Q", ts.target, myHero)
 if HitChance >= Config.HHitChance then
   CastSpell(_Q, Pos.x, Pos.z)
 end
-        if (myHero:CanUseSpell(_W) == READY) then
-          CastSpell(_W, ts.target)
-        end
         if (myHero:CanUseSpell(_E) == READY) then
           CastSpell(_E, ts.target)
         end
@@ -136,14 +137,14 @@ function FullCombo()
         if (myHero:CanUseSpell(_R) == READY) then
           CastSpell(_R)
         end
+        if (myHero:CanUseSpell(_W) == READY) then
+          CastSpell(_W, ts.target)
+        end
         if (myHero:CanUseSpell(_Q) == READY) then
 local Pos, HitChance = HPred:GetPredict("Q", ts.target, myHero)
 if HitChance >= Config.HHitChance then
   CastSpell(_Q, Pos.x, Pos.z)
 end
-        if (myHero:CanUseSpell(_W) == READY) then
-          CastSpell(_W, ts.target)
-        end
         end
         if (myHero:CanUseSpell(_E) == READY) then
           CastSpell(_E, ts.target)
