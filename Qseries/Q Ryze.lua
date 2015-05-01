@@ -9,18 +9,18 @@ local ignite = nil
 
 
 function updater()
-local version = "2.6"
+local version = "1.001"
 local author = "qkwlqk"
 local SCRIPT_NAME = "Q Ryze"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
-local UPDATE_PATH = "/Nickieboy/BoL/master/NAnnie.lua".."?rand="..math.random(1,10000)
+local UPDATE_PATH = "/qkwlqk/BoL/master/Qseries/Q%20Ryze.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH..GetCurrentEnv().FILE_NAME
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
-function AutoupdaterMsg(msg) print("<font color=\"#FF0000\"><b>Totally annie:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
+function AutoupdaterMsg(msg) print("<font color=\"#FF0000\"><b>Q Ryze:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
-  local ServerData = GetWebResult(UPDATE_HOST, "/Nickieboy/BoL/master/version/NAnnie.version")
+  local ServerData = GetWebResult(UPDATE_HOST, "/qkwlqk/BoL/master/Qseries/Version/Q%20ryze.version")
   if ServerData then
     ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
     if ServerVersion then
@@ -36,34 +36,32 @@ if AUTOUPDATE then
     AutoupdaterMsg("Error downloading version info")
   end
 end
+function lib()
+local REQUIRED_LIBS = {
+  ["SxOrbWalk"] = "https://raw.githubusercontent.com/Superx321/BoL/master/common/SxOrbWalk.lua",
+  ["HPrediction"] = "https://raw.githubusercontent.com/BolHTTF/BoL/master/HTTF/Common/HPrediction.lua"
+}
 
-if AutoUpdate then
+local DOWNLOADING_LIBS, DOWNLOAD_COUNT = false, 0
 
-  if VersionData then
-  
-    ServerVersion = type(VersionData) == "number" and VersionData or nil
-    
-    if ServerVersion then
-    
-      if tonumber(Version) < ServerVersion then
-        ScriptMsg("New version available: v"..VersionData)
-        ScriptMsg("Updating, please don't press F9.")
-        DelayAction(function() DownloadFile(UpdateURL, ScriptFilePath, function () ScriptMsg("Successfully updated.: v"..Version.." => v"..VersionData..", Press F9 twice to load the updated version.") end) end, 3)
-      else
-        ScriptMsg("You've got the latest version: v"..Version)
-      end
-      
-    end
-    
-  else
-    ScriptMsg("Error downloading version info.")
+function AfterDownload()
+  DOWNLOAD_COUNT = DOWNLOAD_COUNT - 1
+  if DOWNLOAD_COUNT == 0 then
+    DOWNLOADING_LIBS = false
+    print("<b><font color=\"#6699FF\">Required libraries downloaded successfully, please reload (double F9).</font>")
   end
-  
-else
-  ScriptMsg("AutoUpdate: false")
-end
 end
 
+for DOWNLOAD_LIB_NAME, DOWNLOAD_LIB_URL in pairs(REQUIRED_LIBS) do
+  if FileExist(LIB_PATH .. DOWNLOAD_LIB_NAME .. ".lua") then
+    require(DOWNLOAD_LIB_NAME)
+  else
+    DOWNLOADING_LIBS = true
+    DOWNLOAD_COUNT = DOWNLOAD_COUNT + 1
+    DownloadFile(DOWNLOAD_LIB_URL, LIB_PATH .. DOWNLOAD_LIB_NAME..".lua", AfterDownload)
+  end
+end
+end
 
 function OnLoad()
   PrintChat("<font color=\"#0000FF\">Q Ryze successfully Loaded!")
