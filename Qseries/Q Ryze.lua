@@ -1,3 +1,9 @@
+--[[
+update log
+Q Ryze First realese 1.001 5/1
+Author qkwlqk
+next 1.002 update soon SAC SUPPORT
+]]
 ----------------------------
 require "SxOrbWalk"
 require "HPrediction"
@@ -35,6 +41,7 @@ if AUTOUPDATE then
   else
     AutoupdaterMsg("Error downloading version info")
   end
+end
 end
 function lib()
 local REQUIRED_LIBS = {
@@ -76,7 +83,6 @@ function OnLoad()
   Spell_Q.type['Ryze'] = "DelayLine"
   Spell_Q.width['Ryze'] = 50
   updater()
-	lib()
 end
 
 function Menu()
