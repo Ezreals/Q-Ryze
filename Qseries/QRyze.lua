@@ -7,7 +7,7 @@ end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
 local Author = qkwlqk
-local Version = "0.1"
+local Version = "0.2"
 local AutoUpdate = true
 local Host = "raw.github.com"
 
