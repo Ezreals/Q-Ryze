@@ -14,6 +14,8 @@ local Host = "raw.github.com"
 local ScriptFilePath = SCRIPT_PARH..GetCurrentEnv().FILE_NAME
 local UpdateURL = "https://"..Host..ScriptPath
 
+local ScriptPath = "/qkwlqk/BoL/master/Qseries/QRyze.lua".."?rand="..math.random(1,10000)
+local UpdateURL = "https://"..Host..ScriptPath
 local VersionPath = "/qkwlqk/BoL/blob/master/Qseries/Version/Qryze.version".."?rand="..math.random(1,10000)
 local VersionData = tonumber(GetWebResult(Host, VersionPath))
 
