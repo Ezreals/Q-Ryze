@@ -79,9 +79,9 @@ function OnLoad()
   Spell_Q.collisionH['Ryze'] = true --or false
   Spell_Q.delay['Ryze'] = 0.25
   Spell_Q.range['Ryze'] = 900
-  Spell_Q.speed['Ryze'] = 1400
+  Spell_Q.speed['Ryze'] = 1700
   Spell_Q.type['Ryze'] = "DelayLine"
-  Spell_Q.width['Ryze'] = 50
+  Spell_Q.width['Ryze'] = 100
   updater()
 end
 
