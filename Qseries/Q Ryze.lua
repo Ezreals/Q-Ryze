@@ -1,12 +1,11 @@
 --[[
 update log
 Q Ryze First realese 1.001 5/1
+Q information plus 1.002 5/2
 Author qkwlqk
-next 1.002 update soon SAC SUPPORT
+next 1.003 update soon SAC SUPPORT
 ]]
 ----------------------------
-require "SxOrbWalk"
-require "HPrediction"
 if (myHero.charName ~= "Ryze") then 
   return 
 end
@@ -71,6 +70,7 @@ end
 end
 
 function OnLoad()
+  lib()
   PrintChat("<font color=\"#0000FF\">Q Ryze successfully Loaded!")
   Menu()
   FindSummoners()
