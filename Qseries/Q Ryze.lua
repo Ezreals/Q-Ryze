@@ -76,6 +76,7 @@ function OnLoad()
   Spell_Q.type['Ryze'] = "DelayLine"
   Spell_Q.width['Ryze'] = 50
   updater()
+	lib()
 end
 
 function Menu()
