@@ -9,32 +9,32 @@ local ignite = nil
 
 
 function updater()
-local version = "2.6"
-local author = "qkwlqk"
-local SCRIPT_NAME = "Q Ryze"
+local version = "1.001"
+local author = "Totally Legit"
+local SCRIPT_NAME = "Totally Annie"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
-local UPDATE_PATH = "/Nickieboy/BoL/master/NAnnie.lua".."?rand="..math.random(1,10000)
+local UPDATE_PATH = "/qkwlqk/BoL/master/Qseries/Q%20Ryze.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH..GetCurrentEnv().FILE_NAME
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
-function AutoupdaterMsg(msg) print("<font color=\"#FF0000\"><b>Totally annie:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
+function AutoupdaterMsg(msg) print("<font color=\"#FF0000\"><b>Q Ryze:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
-  local ServerData = GetWebResult(UPDATE_HOST, "/Nickieboy/BoL/master/version/NAnnie.version")
-  if ServerData then
-    ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
-    if ServerVersion then
-      if tonumber(version) < ServerVersion then
-        AutoupdaterMsg("New version available "..ServerVersion)
-        AutoupdaterMsg("Updating, please don't press F9")
-        DelayAction(function() DownloadFile(UPDATE_URL, UPDATE_FILE_PATH, function () AutoupdaterMsg("Successfully updated. ("..version.." => "..ServerVersion.."), press F9 twice to load the updated version.") end) end, 3)
-      else
-        AutoupdaterMsg("You have got the latest version ("..ServerVersion..")")
-      end
-    end
-  else
-    AutoupdaterMsg("Error downloading version info")
-  end
+	local ServerData = GetWebResult(UPDATE_HOST, "/qkwlqk/BoL/master/Qseries/Version/Q%20ryze.version")
+	if ServerData then
+		ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
+		if ServerVersion then
+			if tonumber(version) < ServerVersion then
+				AutoupdaterMsg("New version available "..ServerVersion)
+				AutoupdaterMsg("Updating, please don't press F9")
+				DelayAction(function() DownloadFile(UPDATE_URL, UPDATE_FILE_PATH, function () AutoupdaterMsg("Successfully updated. ("..version.." => "..ServerVersion.."), press F9 twice to load the updated version.") end) end, 3)
+			else
+				AutoupdaterMsg("You have got the latest version ("..ServerVersion..")")
+			end
+		end
+	else
+		AutoupdaterMsg("Error downloading version info")
+	end
 end
 
 if AutoUpdate then
@@ -77,7 +77,7 @@ function OnLoad()
   Spell_Q.speed['Ryze'] = 1400
   Spell_Q.type['Ryze'] = "DelayLine"
   Spell_Q.width['Ryze'] = 50
-  updater()
+	updater()
 end
 
 function Menu()
