@@ -1,9 +1,11 @@
 --[[
+
 update log
 Q Ryze First realese 1.001 5/1
-Q information plus 1.002 5/2
+Q information plus 1.002 5/1
+Q Ryze SAC MMA Support
+special Thanks To HTTF!
 Author qkwlqk
-next 1.003 update soon SAC SUPPORT
 ]]
 ----------------------------
 if (myHero.charName ~= "Ryze") then 
@@ -12,9 +14,8 @@ end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
 
-
 function updater()
-local version = "1.002"
+local version = "1.003"
 local author = "qkwlqk"
 local SCRIPT_NAME = "Q Ryze"
 local AUTOUPDATE = true
@@ -71,7 +72,8 @@ end
 
 function OnLoad()
   lib()
-  PrintChat("<font color=\"#0000FF\">Q Ryze successfully Loaded!")
+	Orbload()
+  PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
   Menu()
   FindSummoners()
   HPred = HPrediction()
@@ -94,10 +96,9 @@ function Menu()
     Config:addParam("ignite", "Ignite", SCRIPT_PARAM_ONOFF, true)
     Config:addParam("Author","Author",SCRIPT_PARAM_INFO,"qkwlqk")
     Config:addParam("Version","Version",SCRIPT_PARAM_INFO,"1.002")
+    Config:addParam("Thanks","Special Thanks To",SCRIPT_PARAM_INFO,"HTTF")
     Config:addParam("CHitChance","Combo Hitchance",SCRIPT_PARAM_SLICE, 1.2, 1, 3, 2)
     Config:addParam("HHitChance","Harass Hitchance",SCRIPT_PARAM_SLICE, 1.8, 1, 3, 2)
-    Config:addSubMenu("orbwalk", "SxOrbWalk")
-      SxOrb:LoadToMenu(Config.SxOrbWalk)
       Config:addTS(ts)
 end
 
@@ -182,4 +183,58 @@ function OnDraw()
   if (Config.draw) then
     DrawCircle(myHero.x, myHero.y, myHero.z, 900, RGB(255, 0, 0))
   end
+end
+
+function Orbwalk()
+
+  if _G.AutoCarry then
+  
+    if _G.Reborn_Initialised then
+      RebornLoaded = true
+      PrintChat("<font color=\"#D1B2FF\">Found Sida Auto Carry : Reborn.")
+    else
+      RevampedLoaded = true
+      PrintChat("<font color=\"#D1B2FF\">Found Sida Auto Carry : Revamped.")
+    end
+    
+  elseif _G.Reborn_Loaded then
+    DelayAction(Orbwalk, 1)
+  elseif _G.MMA_Loaded then
+    MMALoaded = true
+    PrintChat("<font color=\"#D1B2FF\">Found Marksman's Mighty Assistant.")
+  elseif FileExist(LIB_PATH .. "SxOrbWalk.lua") then
+  
+    require 'SxOrbWalk'
+    
+    SxOrbMenu = scriptConfig("SxOrbwalk Settings", "SxOrb")
+    
+    SxOrb = SxOrbWalk()
+    SxOrb:LoadToMenu(SxOrbMenu)
+    
+    SxOrbLoaded = true
+    PrintChat("<font color=\"#D1B2FF\">Found SxOrbwalk.")
+  elseif FileExist(LIB_PATH .. "SOW.lua") then
+  
+    require 'SOW'
+    require 'VPrediction'
+    
+    VP = VPrediction()
+    SOWVP = SOW(VP)
+    
+    Menu:addSubMenu("Orbwalk Settings (SOW)", "Orbwalk")
+      Menu.Orbwalk:addParam("Info", "SOW settings", SCRIPT_PARAM_INFO, "")
+      Menu.Orbwalk:addParam("Blank", "", SCRIPT_PARAM_INFO, "")
+      SOWVP:LoadToMenu(Menu.Orbwalk)
+      
+    SOWLoaded = true
+    PrintChat("<font color=\"#D1B2FF\">Found SOW.")
+  else
+    PrintChat("<font color=\"#D1B2FF\">Orbwalk not founded.")
+  end
+  
+end
+
+function Orbload()
+RebornLoaded, RevampedLoaded, MMALoaded, SxOrbLoaded, SOWLoaded = false, false, false, false, false
+DelayAction(Orbwalk, 1)
 end
