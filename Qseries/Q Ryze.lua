@@ -16,7 +16,7 @@ local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
 
 function updater()
-local version = "1.0031"
+local version = "1.0032"
 local author = "qkwlqk"
 local SCRIPT_NAME = "Q Ryze"
 local AUTOUPDATE = true
@@ -96,7 +96,7 @@ function Menu()
     Config:addParam("fullcombo", "SBTW", SCRIPT_PARAM_ONKEYDOWN, false, string.byte(" "))
     Config:addParam("ignite", "Ignite", SCRIPT_PARAM_ONOFF, true)
     Config:addParam("Author","Author",SCRIPT_PARAM_INFO,"qkwlqk")
-    Config:addParam("Version","Version",SCRIPT_PARAM_INFO,"1.0031")
+    Config:addParam("Version","Version",SCRIPT_PARAM_INFO,"1.0032")
     Config:addParam("Thanks","SpecialThanksTo",SCRIPT_PARAM_INFO,"HTTF")
     Config:addParam("CHitChance","Combo Hitchance",SCRIPT_PARAM_SLICE, 1.2, 1, 3, 2)
     Config:addParam("HHitChance","Harass Hitchance",SCRIPT_PARAM_SLICE, 1.8, 1, 3, 2)
