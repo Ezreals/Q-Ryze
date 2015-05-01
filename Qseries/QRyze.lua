@@ -7,14 +7,14 @@ end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
 local Author = qkwlqk
-local Version = "0.2"
+local Version = "0.1"
 local AutoUpdate = true
 local Host = "raw.github.com"
 
 local ScriptFilePath = SCRIPT_PARH..GetCurrentEnv().FILE_NAME
 local UpdateURL = "https://"..Host..ScriptPath
 
-local VersionPath = "/qkwlqk/BoL/tree/master/Qseries/Version/Qryze.version".."?rand="..math.random(1,10000)
+local VersionPath = "/qkwlqk/BoL/blob/master/Qseries/Version/Qryze.version".."?rand="..math.random(1,10000)
 local VersionData = tonumber(GetWebResult(Host, VersionPath))
 
 if AutoUpdate then
