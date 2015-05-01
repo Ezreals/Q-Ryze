@@ -15,7 +15,7 @@ local ignite = nil
 
 
 function updater()
-local version = "1.001"
+local version = "1.002"
 local author = "qkwlqk"
 local SCRIPT_NAME = "Q Ryze"
 local AUTOUPDATE = true
