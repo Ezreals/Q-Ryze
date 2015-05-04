@@ -1,0 +1,390 @@
+이 한글화는 your님이 하셨습니다 ^^
+
+
+
+
+
+폴더:
+ 
+BoL_Studio
+|------> Scripts -----> Common
+|------> Sprites
+불러오기:
+ 
+OnLoad() #기본형입니다
+OnDraw() #화면상에 그리는 명령어가 이곳에 들어갑니다
+OnTick() #매번 계산을 하는 것들이 이곳에 들어갑니다.
+OnUnload()
+OnCreateObj(object)
+OnDeleteObj(object)
+OnWndMsg(msg,wParam)
+OnProcessSpell(object,spellProc)
+OnSendChat(text) #체팅에 ()안의 것이 들어갑니다
+OnReset()
+
+
+예제:
+
+function OnTick()
+//여기에 코드를 작성합니다
+end
+전역 함수 :
+함수 :
+EnableZoomHack() -- 줌핵을 가능하게 해줍니다.
+
+IsKeyPressed(wParam) -- 키가 눌렸는지에 대한 참 거짓 값을 반환합니다.
+IsKeyDown(wParam) -- 키가 눌린지에 대한 참 거짓 값을 반환합니다.
+
+CastSpell(iSpell) -- 스펠이나 아이템을 사용합니다
+CastSpell(iSpell,x,z) -- 스펠이나 아이템을 x z 값에 사용합니다.
+CastSpell(iSpell,target) -- 스펠이나 아이템을 타겟에 사용합니다.
+LevelSpell(iSpell) -- 스펠을 레벨업합니다.
+
+PrintChat(text) -- 채팅을 올립니다 (로컬에만 적용됩니다.)
+SendChat(text) -- 채팅을 보냅니다 (외부로 발산되고 "/"는 처리되지 않습니다)
+BlockChat() -- Blocks last SendChat() - 최근의 챗을 되돌려옵니다.
+
+DrawText(text,size,x,y,ARGB) -- 화면을 통해 텍스트를 그립니다.
+DrawLine(x1, y1, x2, y2, size, ARGB) -- 화면을 통해 선을 그립니다
+DrawRectangle(x, y, width, height, ARGB) -- 화면을 통해 사각형을 그립니다.
+
+DrawCircle(x,y,z,size,RGB) -- 게임 내 오브젝트에 원을 그립니다
+PrintFloatText(target,iMode,text) -- 게임 내 오브젝트에 움직이지 않는 텍스트를 그립니다.(자리 고정 인듯)
+PingSignal(iMode,x,y,z,bPing) -- 게임 내 미니맵에 핑을 쏩니다
+
+GetMyHero() -- 플레이어의 챔피언을 반환합니다.
+GetTarget() -- 유닛(혹은 없을 경우 가장 가까운 것)을 타겟으로 반환합니다.
+GetTickCount() -- Returns current tick
+GetLatency() -- 지연시간을 반환합니다.
+GetCursorPos() -- 스크린에 있는 커서의 좌표를 반환합니다.
+WorldToScreen(unit) -- 좌표를 반환하는데 당신의 스크린 상에 " 많약 z < 1 " 이라면 이라는 것을 안다는 것을 채크해야합니다. 이것은 x , y값을 반환합니다. (returns a pos , you need to check "if .z < 1" to know if its inside your screen, it returns the screen pos at .x and .y)
+ 
+SetTarget(unit) -- 현제 유닛의 대상을 반환합니다.
+
+createSprite(szFile) -- return sprite object, loads file from "Sprites" folder
+
+CLoLPacket(header) -- 새로운 LoLPacket을 반환합니다.
+SendPacket(LoLPacket) -- LoLPacket을 보냅니다.
+
+BuyItem(itemID) - 해당 아이탬을 구입합니다
+SellItem(iSlot) - 해당 슬롯의 아이탬을 판매합니다.
+IsItemPurchasable(itemID) -- 구매 상태가 (참/거짓)인지 반환합니다.
+IsRecipePurchasable(recipeID) -- 구매 상태가 (참/거짓)인지 반환합니다.
+
+DrawArrow(pos,arrowDir,fIdk1,fWidth,fIdk2,dwColor)
+IsWallOfGrass(pos) --많약 당신이 부쉬에 있는 우경 반환랍니다.
+UpdateWindow() -- 윈도우의 [X/Y/W/H] 를 업데이트 합니다.
+GetKey(hotkey) -- string.byte 처럼 같습니다(...)
+RGBA(r,g,b,a)
+RGB(r,g,b )
+KillProcess(procName)
+GetGameTimer() -- 현재 게임 시간을 반환합니다.
+
+
+Members :
+
+objManager
+heroManager
+mousePos
+cameraPos
+
+
+오브젝트 관리자 예시:
+구성:
+
+objManager.maxObjects
+objManager.iCount
+
+
+방법:
+
+objManager:getObject(iIndex) -- Return unit (object)
+
+
+영웅 매니저 예시:
+구성:
+
+heroManager.iCount
+
+
+방법:
+
+heroManager:getHero(iIndex) -- Return unit (hero)
+
+
+마우스 좌표 예시:
+구성:
+
+mousePos.x
+mousePos.y
+mousePos.z
+
+
+카메라 위치 예시:
+구성:
+
+cameraPos.x
+cameraPos.y
+cameraPos.z
+
+Classes :
+
+유닛 Class:
+예:
+unit.name
+unit.charName - 현제 유닛의 이름
+unit.level (only for hero) - 히어로의 레벨
+unit.visible
+unit.type
+unit.x - x 좌표
+unit.y - y 좌표
+unit.z - z 좌표
+unit.isAI - AI 채크
+unit.isMe - 나 채크
+unit.buffCount 
+unit.totalDamage - 모든 대미지(?)
+unit.dead - 죽음
+unit.team - 팀
+unit.networkID - 
+unit.health - 채력
+unit.maxHealth - 최대 채력
+unit.mana - 마나
+unit.maxMana - 쵀대 마나
+unit.bInvulnerable
+unit.bPhysImune
+unit.bMagicImune
+unit.bTargetable
+unit.bTargetableToTeam
+unit.controlled
+unit.cdr
+unit.critChance
+unit.critDmg
+unit.hpPool
+unit.hpRegen - 채력 리잰
+unit.mpRegen - 마나 리잰
+unit.attackSpeed - 공속
+unit.expBonus - 경험치 보너스
+unit.hardness
+unit.lifeSteal
+unit.spellVamp
+unit.physReduction
+unit.magicReduction
+unit.armorPen
+unit.magicPen
+unit.armorPenPercent
+unit.magicPenPerecent
+unit.addDamage
+unit.ap
+unit.damage
+unit.armor
+unit.magicArmor
+unit.ms
+unit.range
+unit.gold
+unit.pos
+unit.minBBox
+unit.maxBBox
+unit.armorMaterial
+unit.weaponMaterial
+
+unit.deathTimer
+unit.canAttack
+unit.canMove
+unit.isStealthed
+unit.isRevealSpecificUnit
+unit.isTaunted
+unit.isCharmed
+unit.isFeared
+unit.isAsleep
+unit.isNearSight
+unit.isGhosted
+unit.isNoRender
+unit.isFleeing
+unit.isForceRenderParticles
+
+
+방법 (오직 히어로만 가능):
+
+unit:HoldPosition()
+unit:MoveTo(x,z)
+unit:Attack(target) - 타겟 공격
+unit:GetDistance(target) - 
+unit:CalcDamage(target,fDmg)
+unit:CalcMagicDamage(target,fDmg)
+unit:getBuff(iIndex) --returns buff object
+unit:getInventorySlot(iSlot) --from ITEM_1 to ITEM_6, return item ID
+unit:getItem(iSlot) --from ITEM_1 to ITEM_6, return LoLItem
+unit:GetSpellData(iSpell) --Returns Spell
+unit:CanUseSpell(iSpell) --Returns SpellState
+
+
+스프라이트 Class:
+방법:
+
+sprite:Draw(x,y,alpha) --Draws sprite - x, y에 alpha 라는 이미지를 배치
+sprite:Release() --Release sprite - 현재 배치된 이미지를 모두 출력
+
+
+Spell Class:
+방법:
+
+spell.name
+spell.level
+spell.mana
+spell.cd
+spell.currentCd
+spell.range
+spell.channelDuration
+spell.startPos -- only for spellProc
+spell.endPos -- only for spellProc
+
+
+LoLItem Class:
+Members:
+
+item.name
+item.id
+item.stacks
+
+
+Buff Class:
+Members:
+
+buff.name - 버프 이름
+buff.startT - 시작시간
+buff.endT - 끝나는 시간
+buff.valid
+
+
+Pos Class:
+Members:
+
+pos.x
+pos.y
+pos.z
+
+항수:
+SpellState:
+READY
+NOTLEARNED
+SUPRESSED
+COOLDOWN
+NOMANA
+UNKNOWN
+
+
+WndMsg:
+
+KEY_DOWN
+KEY_UP
+WM_MOUSEMOVE
+WM_LBUTTONDOWN
+WM_LBUTTONUP
+WM_RBUTTONDOWN
+WM_RBUTTONUP
+
+
+bPing:
+
+PING_NORMAL
+PING_FALLBACK
+
+
+iTeam:
+
+TEAM_NONE
+TEAM_BLUE
+TEAM_RED
+TEAM_NEUTRAL
+TEAM_ENEMY
+
+
+window:
+
+WINDOW_X
+WINDOW_Y
+WINDOW_W
+WINDOW_H
+
+
+iSpell:
+
+_Q
+_W
+_E
+_R
+SPELL_1
+SPELL_2
+SPELL_3
+SPELL_4
+ITEM_1
+ITEM_2
+ITEM_3
+ITEM_4
+ITEM_5
+ITEM_6
+RECALL
+SUMMONER_1
+SUMMONER_2
+
+
+iMode (exemple):
+
+FLOATTEXT_INVULNERABLE
+FLOATTEXT_SPECIAL
+FLOATTEXT_HEAL
+FLOATTEXT_MANAHEAL
+FLOATTEXT_MANADMG
+FLOATTEXT_DODGE
+FLOATTEXT_CRITICAL
+FLOATTEXT_EXPERIENCE
+FLOATTEXT_GOLD
+FLOATTEXT_LEVEL
+FLOATTEXT_DISABLE
+FLOATTEXT_QUESTRECV
+FLOATTEXT_QUESTDONE
+FLOATTEXT_SCORE
+FLOATTEXT_PHYSDMG
+FLOATTEXT_MAGICDMG
+FLOATTEXT_TRUEDMG
+FLOATTEXT_ENEMYPHYSDMG
+FLOATTEXT_ENEMYMAGICDMG
+FLOATTEXT_ENEMYTRUEDMG
+FLOATTEXT_ENEMYCRITICAL
+FLOATTEXT_COUNTDOWN
+FLOATTEXT_LEGACY
+FLOATTEXT_LEGACYCRITICAL
+FLOATTEXT_DEBUG
+
+
+[*]VIP APIs:
+
+LoLPacket Class:
+CallBacks:
+ 
+OnRecvPacket(LoLPacket)
+OnSendPacket(LoLPacket)
+
+
+Members:
+
+LoLPacket.dwArg1 -- Return network Arg1
+LoLPacket.dwArg2 -- Return network Arg2
+LoLPacket.header -- Return network headers
+LoLPacket.pos -- Return the current pos in the dump
+LoLPacket.size -- Return the size of the dump
+
+
+Functions:
+
+LoLPacket.Decode1() -- Returns 1 byte and increases the read pos by 1
+LoLPacket.Decode2() -- Returns a word and increases the read pos by 2
+LoLPacket.Decode4() -- Return a long and increases the read pos by 4
+LoLPacket.DecodeF() -- Return a float and increases the read pos by 4
+LoLPacket.Encode1(eByte) -- Encode a byte #바이트 인코드
+LoLPacket.Encode2(eWord) -- Encode a word #와드 인코드
+LoLPacket.Encode4(eLong) -- Encode a long
+LoLPacket.EncodeF(eFloat) -- Encode a float
+LoLPacket.EncodeStr(eStr) -- Encode a string
+LoLPacket.getRemaining()
+LoLPacket.skip()
