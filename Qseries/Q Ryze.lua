@@ -7,6 +7,7 @@ Q Ryze SAC MMA Support 1.003 5/1
 Combo Changed 1.0031 5/1
 error edit 1.0032 5/1
 menu Many Edited 1.0033 5/7
+Small Fixed 1.0034 5/7
 
 special Thanks To HTTF!
 Author qkwlqk
@@ -17,7 +18,7 @@ if (myHero.charName ~= "Ryze") then
 end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
-local version = "1.0033"
+local version = "1.0034"
 local Author = "qkwlqk"
 local Date = "5/7"
 function updater()
@@ -142,7 +143,7 @@ local HarassE = Menu.Harass.E
         end
         if (myHero:CanUseSpell(_Q) == READY and HarassQ) then
 local Pos, HitChance = HPred:GetPredict("Q", ts.target, myHero)
-if HitChance >= Menu.HHitChance then
+if HitChance >= Menu.HitChance.HHitChance then
   CastSpell(_Q, Pos.x, Pos.z)
 end
         if (myHero:CanUseSpell(_E) == READY and HarassE) then
@@ -170,7 +171,7 @@ local ComboR = Menu.Combo.R
         end
         if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
 local Pos, HitChance = HPred:GetPredict("Q", ts.target, myHero)
-if HitChance >= Menu.HHitChance then
+if HitChance >= Menu.HitChance.CHitChance then
   CastSpell(_Q, Pos.x, Pos.z)
 end
         end
