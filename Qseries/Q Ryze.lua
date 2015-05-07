@@ -5,6 +5,9 @@ Q Ryze First realese 1.001 5/1
 Q information plus 1.002 5/1
 Q Ryze SAC MMA Support 1.003 5/1
 Combo Changed 1.0031 5/1
+error edit 1.0032 5/1
+menu Many Edited 1.0033 5/7
+
 special Thanks To HTTF!
 Author qkwlqk
 ]]
@@ -14,10 +17,10 @@ if (myHero.charName ~= "Ryze") then
 end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
-
+local Version = "1.0033"
+local Author = "qkwlqk"
+local Date = "5/7"
 function updater()
-local version = "1.0032"
-local author = "qkwlqk"
 local SCRIPT_NAME = "Q Ryze"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
@@ -89,18 +92,35 @@ function OnLoad()
 end
 
 function Menu()
-  Config = scriptConfig("QRyze", "Q Ryze")
-  
-    Config:addParam("draw", "Draw Q Range", SCRIPT_PARAM_ONOFF, true)
-    Config:addParam("harass", "Harass", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("C"))
-    Config:addParam("fullcombo", "SBTW", SCRIPT_PARAM_ONKEYDOWN, false, string.byte(" "))
-    Config:addParam("ignite", "Ignite", SCRIPT_PARAM_ONOFF, true)
-    Config:addParam("Author","Author",SCRIPT_PARAM_INFO,"qkwlqk")
-    Config:addParam("Version","Version",SCRIPT_PARAM_INFO,"1.0032")
-    Config:addParam("Thanks","SpecialThanksTo",SCRIPT_PARAM_INFO,"HTTF")
-    Config:addParam("CHitChance","Combo Hitchance",SCRIPT_PARAM_SLICE, 1.2, 1, 3, 2)
-    Config:addParam("HHitChance","Harass Hitchance",SCRIPT_PARAM_SLICE, 1.8, 1, 3, 2)
-      Config:addTS(ts)
+  Menu = scriptConfig("QRyze", "Q Ryze")
+    Menu:addSubMenu("Draw Settings", "Draw")
+          Menu.Draw:addParam("draw", "Draw Q Range", SCRIPT_PARAM_ONOFF, true)
+    Menu:addParam("harass", "Harass", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("C"))
+    Menu:addParam("fullcombo", "SBTW", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("(32)"))
+    Menu:addParam("ignite", "Ignite", SCRIPT_PARAM_ONOFF, true)
+    Menu:addParam("Author","Author",SCRIPT_PARAM_INFO,Author)
+    Menu:addParam("Version","Version",SCRIPT_PARAM_INFO,Version)
+    Menu:addParam("LastUpdate","LastUpdate",SCRIPT_PARAM_INFO,Date)
+    Menu:addParam("Thanks","SpecialThanksTo",SCRIPT_PARAM_INFO,"HTTF")
+    Menu:addTS(ts)
+    Menu:addSubMenu("HitChance", "HitChance")
+          Menu.HitChance:addParam("CHitChance","Combo Hitchance",SCRIPT_PARAM_SLICE, 1.2, 1, 3, 2)
+          Menu.HitChance:addParam("HHitChance","Harass Hitchance",SCRIPT_PARAM_SLICE, 1.8, 1, 3, 2)
+    if VIP_USER then
+    Menu:addSubMenu("Misc", "Misc")
+          Menu.Misc:addParam("UsePacket", "Use Packet (NotWorking) 1.004worked", SCRIPT_PARAM_ONOFF, false)
+    end
+    Menu:addSubMenu("Harass Settings", "Harass")
+          Menu.Harass:addParam("Q", "Use Q ", SCRIPT_PARAM_ONOFF, true)
+          Menu.Harass:addParam("W", "Use W ", SCRIPT_PARAM_ONOFF, true)
+          Menu.Harass:addParam("E", "Use E ", SCRIPT_PARAM_ONOFF, true)
+          Menu.Harass:addParam("HLogic", "NotWork", SCRIPT_PARAM_LIST, 1,{"WQE","QWE","EWQ","WEQ"})
+    Menu:addSubMenu("Combo Settings", "Combo")
+          Menu.Combo:addParam("Q", "Use Q ", SCRIPT_PARAM_ONOFF, true)
+          Menu.Combo:addParam("W", "Use W ", SCRIPT_PARAM_ONOFF, true)
+          Menu.Combo:addParam("E", "Use E ", SCRIPT_PARAM_ONOFF, true)
+          Menu.Combo:addParam("R", "Use R ", SCRIPT_PARAM_ONOFF, true)
+          Menu.Combo:addParam("ComboLogic", "NotWork", SCRIPT_PARAM_LIST,1,{"RWQE","RQWE","REWQ","RWEQ"})
 end
 
 function OnTick() 
@@ -111,18 +131,21 @@ function OnTick()
 end
 
 function Harass()
+local HarassQ = Menu.Harass.Q
+local HarassW = Menu.Harass.W
+local HarassE = Menu.Harass.E
   if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
-    if (Config.harass) then
+    if (Menu.harass) then
       if (myHero:GetDistance(ts.target) <= 900) then
-        if (myHero:CanUseSpell(_W) == READY) then
+        if (myHero:CanUseSpell(_W) == READY and HarassW) then
           CastSpell(_W, ts.target)
         end
-        if (myHero:CanUseSpell(_Q) == READY) then
+        if (myHero:CanUseSpell(_Q) == READY and HarassQ) then
 local Pos, HitChance = HPred:GetPredict("Q", ts.target, myHero)
-if HitChance >= Config.HHitChance then
+if HitChance >= Menu.HHitChance then
   CastSpell(_Q, Pos.x, Pos.z)
 end
-        if (myHero:CanUseSpell(_E) == READY) then
+        if (myHero:CanUseSpell(_E) == READY and HarassE) then
           CastSpell(_E, ts.target)
         end
       end
@@ -131,22 +154,27 @@ end
 end
 end
 function FullCombo()
+local ComboQ = Menu.Combo.Q
+local ComboW = Menu.Combo.W
+local ComboE = Menu.Combo.E
+local ComboR = Menu.Combo.R
+
   if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
-    if (Config.fullcombo) then
+    if (Menu.fullcombo) then
       if (myHero:GetDistance(ts.target) <= 900) then
-        if (myHero:CanUseSpell(_R) == READY) then
+        if (myHero:CanUseSpell(_R) == READY and ComboR) then
           CastSpell(_R)
         end
-        if (myHero:CanUseSpell(_W) == READY) then
+        if (myHero:CanUseSpell(_W) == READY and ComboW) then
           CastSpell(_W, ts.target)
         end
-        if (myHero:CanUseSpell(_Q) == READY) then
+        if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
 local Pos, HitChance = HPred:GetPredict("Q", ts.target, myHero)
-if HitChance >= Config.HHitChance then
+if HitChance >= Menu.HHitChance then
   CastSpell(_Q, Pos.x, Pos.z)
 end
         end
-        if (myHero:CanUseSpell(_E) == READY) then
+        if (myHero:CanUseSpell(_E) == READY and ComboE) then
           CastSpell(_E, ts.target)
         end
       end
@@ -168,7 +196,7 @@ function Ignite()
   if ignite ~= nil then
     local iDmg = (50 + (20 * myHero.level))
     for i, enemy in ipairs(GetEnemyHeroes()) do
-      if GetDistance(enemy, myHero) < 600 and ValidTarget(enemy, 600) and (Config.ignite) then
+      if GetDistance(enemy, myHero) < 600 and ValidTarget(enemy, 600) and (Menu.ignite) then
         if (myHero:CanUseSpell(ignite) == READY) then
           if enemy.health < iDmg then
             CastSpell(ignite, enemy)
@@ -181,7 +209,7 @@ end
 
 function OnDraw()
   if (myHero.dead) then return end
-  if (Config.draw) then
+  if (Menu.Draw.draw) then
     DrawCircle(myHero.x, myHero.y, myHero.z, 900, RGB(255, 0, 0))
   end
 end
@@ -238,4 +266,14 @@ end
 function Orbload()
 RebornLoaded, RevampedLoaded, MMALoaded, SxOrbLoaded, SOWLoaded = false, false, false, false, false
 DelayAction(Orbwalk, 1)
+end
+
+function Clear()
+
+end
+
+function JungleClear()
+end
+
+function KillSteal()
 end
