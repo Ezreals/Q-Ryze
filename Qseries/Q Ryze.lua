@@ -17,7 +17,7 @@ if (myHero.charName ~= "Ryze") then
 end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
-local Version = "1.0033"
+local version = "1.0033"
 local Author = "qkwlqk"
 local Date = "5/7"
 function updater()
@@ -99,7 +99,7 @@ function Menu()
     Menu:addParam("fullcombo", "SBTW", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("(32)"))
     Menu:addParam("ignite", "Ignite", SCRIPT_PARAM_ONOFF, true)
     Menu:addParam("Author","Author",SCRIPT_PARAM_INFO,Author)
-    Menu:addParam("Version","Version",SCRIPT_PARAM_INFO,Version)
+    Menu:addParam("Version","Version",SCRIPT_PARAM_INFO,version)
     Menu:addParam("LastUpdate","LastUpdate",SCRIPT_PARAM_INFO,Date)
     Menu:addParam("Thanks","SpecialThanksTo",SCRIPT_PARAM_INFO,"HTTF")
     Menu:addTS(ts)
