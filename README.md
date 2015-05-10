@@ -1,1 +1,1 @@
-# BoL Q
+# BotOfLegends Scripts
