@@ -20,13 +20,13 @@ function updater()
 local SCRIPT_NAME = "Q Urgot"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
-local UPDATE_PATH = "/qkwlqk/BoL/master/Qseries/Q%20Ryze.lua".."?rand="..math.random(1,10000)
+local UPDATE_PATH = "/qkwlqk/BoL/master/Qseries/Q%20Urgot.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH..GetCurrentEnv().FILE_NAME
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
 function AutoupdaterMsg(msg) print("<font color=\"#FF0000\"><b>Q Urgot:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
-  local ServerData = GetWebResult(UPDATE_HOST, "/qkwlqk/BoL/master/Qseries/Version/Q%20ryze.version")
+  local ServerData = GetWebResult(UPDATE_HOST, "/qkwlqk/BoL/master/Qseries/Version/Q%20urgot.version")
   if ServerData then
     ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
     if ServerVersion then
@@ -73,7 +73,7 @@ end
 function OnLoad()
   lib()
   Orbload()
-  PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
+  PrintChat("<font color=\"#D1B2FF\">Q Urgot successfully Loaded!")
   Menu()
   FindSummoners()
   HPred = HPrediction()
@@ -105,13 +105,11 @@ function Menu()
           Menu.Harass:addParam("Q", "Use Q ", SCRIPT_PARAM_ONOFF, true)
           Menu.Harass:addParam("W", "Use W ", SCRIPT_PARAM_ONOFF, true)
           Menu.Harass:addParam("E", "Use E ", SCRIPT_PARAM_ONOFF, true)
-          Menu.Harass:addParam("HLogic", "NotWork", SCRIPT_PARAM_LIST, 1,{"WQE","QWE","EWQ","WEQ"})
     Menu:addSubMenu("Combo Settings", "Combo")
           Menu.Combo:addParam("Q", "Use Q ", SCRIPT_PARAM_ONOFF, true)
           Menu.Combo:addParam("W", "Use W ", SCRIPT_PARAM_ONOFF, true)
           Menu.Combo:addParam("E", "Use E ", SCRIPT_PARAM_ONOFF, true)
           Menu.Combo:addParam("R", "Use R ", SCRIPT_PARAM_ONOFF, true)
-          Menu.Combo:addParam("ComboLogic", "NotWork", SCRIPT_PARAM_LIST,1,{"RWQE","RQWE","REWQ","RWEQ"})
 end
 
 function OnTick() 
@@ -152,7 +150,7 @@ local ComboR = Menu.Combo.R
 
   if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
     if (Menu.fullcombo) then
-      if (myHero:GetDistance(ts.target) <= 900) then
+      if (myHero:GetDistance(ts.target) <= 1250) then
         if (myHero:CanUseSpell(_R) == READY and ComboR) then
           CastSpell(_R)
         end
