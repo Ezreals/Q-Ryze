@@ -8,8 +8,8 @@ Combo Changed 1.0031 5/1
 error edit 1.0032 5/1
 menu Many Edited 1.0033 5/7
 Small Fixed 1.0034 5/7
-Fixed HPred 1.13 Support 1.0035/9
-
+Fixed HPred 1.13 Support 1.0035 5/9
+Small Prediction Fixed 1.0036 5/19
 special Thanks To HTTF!
 Author qkwlqk
 ]]
@@ -19,7 +19,7 @@ if (myHero.charName ~= "Ryze") then
 end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
-local version = "1.0035"
+local version = "1.0036"
 local Author = "qkwlqk"
 local Date = "5/9"
 function updater()
@@ -281,5 +281,5 @@ JungleMobs:update()
 end
 
 function SpellData()
-HPred:AddSpell("Q", 'Ryze', {collisionM = true, collisionH = true, delay = .25, range = 900, speed = 1700, type = "DelayLine", width = 100})
+HPred:AddSpell("Q", 'Ryze', {collisionM = true, collisionH = false, delay = .25, range = 900, speed = 1700, type = "DelayLine", width = 100})
 end
