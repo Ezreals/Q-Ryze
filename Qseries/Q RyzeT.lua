@@ -10,8 +10,10 @@ menu Many Edited 1.0033 5/7
 Small Fixed 1.0034 5/7
 Fixed HPred 1.13 Support 1.0035 5/9
 Small Prediction Fixed 1.0036 5/19
+Packet Cast Added 1.004 6/4
 special Thanks To HTTF!
 Author qkwlqk
+Next Update Gapcloser and R SmartLogic Add
 ]]
 ----------------------------
 if (myHero.charName ~= "Ryze") then 
@@ -19,9 +21,18 @@ if (myHero.charName ~= "Ryze") then
 end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
-local version = "1.0036"
+local version = "1.004"
 local Author = "qkwlqk"
-local Date = "5/9"
+local Date = "6/4"
+local Thxto = "HTTF"
+local Wrange = 600
+local Erange = 600
+
+ QTS = TargetSelector(TARGET_LESS_CAST, QTargetRange, DAMAGE_MAGIC, false)
+ RTS = TargetSelector(TARGET_LESS_CAST, RTargetRange, DAMAGE_MAGIC, false)
+ STS = TargetSelector(TARGET_LOW_HP, S.range)
+
+
 function updater()
 local SCRIPT_NAME = "Q Ryze"
 local AUTOUPDATE = true
@@ -29,6 +40,8 @@ local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/qkwlqk/BoL/master/Qseries/Q%20Ryze.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH..GetCurrentEnv().FILE_NAME
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
+
+
 
 function AutoupdaterMsg(msg) print("<font color=\"#FF0000\"><b>Q Ryze:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
@@ -49,6 +62,11 @@ if AUTOUPDATE then
   end
 end
 end
+
+
+
+
+
 function lib()
 local REQUIRED_LIBS = {
   ["SxOrbWalk"] = "https://raw.githubusercontent.com/Superx321/BoL/master/common/SxOrbWalk.lua",
@@ -56,6 +74,8 @@ local REQUIRED_LIBS = {
 }
 
 local DOWNLOADING_LIBS, DOWNLOAD_COUNT = false, 0
+
+
 
 function AfterDownload()
   DOWNLOAD_COUNT = DOWNLOAD_COUNT - 1
@@ -76,17 +96,20 @@ for DOWNLOAD_LIB_NAME, DOWNLOAD_LIB_URL in pairs(REQUIRED_LIBS) do
 end
 end
 
+
 function OnLoad()
   lib()
   Orbload()
   PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
+  Update()
   Menu()
   FindSummoners()
   HPred = HPrediction()
   SpellData()
-  
   updater()
 end
+
+
 
 function Menu()
   Menu = scriptConfig("QRyze", "Q Ryze")
@@ -98,14 +121,13 @@ function Menu()
     Menu:addParam("Author","Author",SCRIPT_PARAM_INFO,Author)
     Menu:addParam("Version","Version",SCRIPT_PARAM_INFO,version)
     Menu:addParam("LastUpdate","LastUpdate",SCRIPT_PARAM_INFO,Date)
-    Menu:addParam("Thanks","SpecialThanksTo",SCRIPT_PARAM_INFO,"HTTF")
-    Menu:addTS(ts)
+    Menu:addParam("Thanks","SpecialThanksTo",SCRIPT_PARAM_INFO,Thxto)
     Menu:addSubMenu("HitChance", "HitChance")
           Menu.HitChance:addParam("CHitChance","Combo Hitchance",SCRIPT_PARAM_SLICE, 1.2, 1, 3, 2)
           Menu.HitChance:addParam("HHitChance","Harass Hitchance",SCRIPT_PARAM_SLICE, 1.8, 1, 3, 2)
     if VIP_USER then
     Menu:addSubMenu("Misc", "Misc")
-          Menu.Misc:addParam("UsePacket", "Use Packet (NotWorking) 1.004worked", SCRIPT_PARAM_ONOFF, false)
+          Menu.Misc:addParam("UsePacket", "Use Packet", SCRIPT_PARAM_ONOFF, false)
     end
     Menu:addSubMenu("Harass Settings", "Harass")
           Menu.Harass:addParam("Q", "Use Q ", SCRIPT_PARAM_ONOFF, true)
@@ -117,8 +139,9 @@ function Menu()
           Menu.Combo:addParam("W", "Use W ", SCRIPT_PARAM_ONOFF, true)
           Menu.Combo:addParam("E", "Use E ", SCRIPT_PARAM_ONOFF, true)
           Menu.Combo:addParam("R", "Use R ", SCRIPT_PARAM_ONOFF, true)
-          Menu.Combo:addParam("ComboLogic", "NotWork", SCRIPT_PARAM_LIST,1,{"RWQE","RQWE","REWQ","RWEQ"})
+          Menu.Combo:addParam("ComboLogic", "Fixed Soon", SCRIPT_PARAM_LIST,1,{"RWQE","RQWE","REWQ","RWEQ"})
 end
+
 
 function OnTick() 
   ts:update()
@@ -127,29 +150,45 @@ function OnTick()
   Ignite()
 end
 
+
 function Harass()
 local HarassQ = Menu.Harass.Q
 local HarassW = Menu.Harass.W
 local HarassE = Menu.Harass.E
+
   if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
     if (Menu.harass) then
       if (myHero:GetDistance(ts.target) <= 900) then
         if (myHero:CanUseSpell(_W) == READY and HarassW) then
-          CastSpell(_W, ts.target)
+        if Menu.Misc.UsePacket then
+        Packet("S_CAST", {spellId = _W}):send()
+    else
+          CastSpell(_W)
         end
+end
         if (myHero:CanUseSpell(_Q) == READY and HarassQ) then
-local Pos, HitChance = HPred:GetPredict("Q", ts.target, myHero)
-if HitChance >= Menu.HitChance.HHitChance then
-  CastSpell(_Q, Pos.x, Pos.z)
-end
-        if (myHero:CanUseSpell(_E) == READY and HarassE) then
-          CastSpell(_E, ts.target)
-        end
-      end
+        if HitChance >= Menu.HitChance.CHitChance then
+    if Menu.Misc.UsePacket then
+local QPos, QHitChance = HPred:GetPredict("HP_Q", ts.target, myHero)
+      Packet("S_CAST", {spellId = _Q, toX = QPos.x, toY = QPos.z, fromX = QPos.x, fromY = QPos.z}):send()
+    else
+      CastSpell(_Q, QPos.x, QPos.z)
     end
+        end
+        if (myHero:CanUseSpell(_E) == READY and HarassE) then
+        if Menu.Misc.UsePacket then
+        Packet("S_CAST", {spellId = _E}):send()
+    else
+          CastSpell(_E)
+        end
+     end
+    end
+   end
   end
+ end
 end
-end
+
+
 function FullCombo()
 local ComboQ = Menu.Combo.Q
 local ComboW = Menu.Combo.W
@@ -160,25 +199,40 @@ local ComboR = Menu.Combo.R
     if (Menu.fullcombo) then
       if (myHero:GetDistance(ts.target) <= 900) then
         if (myHero:CanUseSpell(_R) == READY and ComboR) then
+        if Menu.Misc.UsePacket then
+        Packet("S_CAST", {spellId = _R}):send()
+    else
           CastSpell(_R)
         end
-        if (myHero:CanUseSpell(_W) == READY and ComboW) then
-          CastSpell(_W, ts.target)
-        end
-        if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
-local Pos, HitChance = HPred:GetPredict("Q", ts.target, myHero)
-if HitChance >= Menu.HitChance.CHitChance then
-  CastSpell(_Q, Pos.x, Pos.z)
 end
+        if (myHero:CanUseSpell(_W) == READY and ComboW) then
+        if Menu.Misc.UsePacket then
+        Packet("S_CAST", {spellId = _W}):send()
+    else
+          CastSpell(_W)
+        end
+end
+        if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
+        if HitChance >= Menu.HitChance.CHitChance then
+    if Menu.Misc.UsePacket then
+local QPos, QHitChance = HPred:GetPredict("HP_Q", ts.target, myHero)
+      Packet("S_CAST", {spellId = _Q, toX = QPos.x, toY = QPos.z, fromX = QPos.x, fromY = QPos.z}):send()
+    else
+      CastSpell(_Q, QPos.x, QPos.z)
+    end
         end
         if (myHero:CanUseSpell(_E) == READY and ComboE) then
-          CastSpell(_E, ts.target)
+        if Menu.Misc.UsePacket then
+        Packet("S_CAST", {spellId = _E}):send()
+    else
+          CastSpell(_E)
         end
-      end
-    end
-  end
 end
-
+end
+end
+end
+end
+end
 function FindSummoners()
   if myHero:GetSpellData(SUMMONER_1).name:find("summonerdot") then 
     ignite = SUMMONER_1
@@ -275,11 +329,33 @@ end
 function KillSteal()
 end
 
+
 function Update()
-EnemyMinions:update()
-JungleMobs:update()
+  if RebornLoaded then
+    Target = _G.AutoCarry.Crosshair:GetTarget()
+  elseif RevampedLoaded then
+    Target = _G.AutoCarry.Orbwalker.target
+  elseif MMALoaded then
+    Target = _G.MMA_Target
+  elseif SxOrbLoaded then
+    Target = SxOrb:GetTarget()
+  elseif SOWLoaded then
+    Target = SOWVP:GetTarget()
+  if Target and Target.type == myHero.type and ValidTarget(Target, TrueRange(Target)) then
+    QTarget = Target
+    WTarget = Target
+    ETarget = Target
+  else
+    QTS:update()
+    WTS:update()
+    ETS:update()
+    QTarget = QTS.target
+    WTarget = WTS.target
+    ETarget = ETS.target
+  end
+end
 end
 
 function SpellData()
-HPred:AddSpell("Q", 'Ryze', {collisionM = true, collisionH = false, delay = .25, range = 900, speed = 1700, type = "DelayLine", width = 100})
+HP_Q = HPSkillshot({collisionM = true, collisionH = false, type = "DelayLine", delay = .25, range = 900, width = 175, speed = 1700})
 end
