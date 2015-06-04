@@ -28,10 +28,6 @@ local Thxto = "HTTF"
 local Wrange = 600
 local Erange = 600
 
- QTS = TargetSelector(TARGET_LESS_CAST, QTargetRange, DAMAGE_MAGIC, false)
- RTS = TargetSelector(TARGET_LESS_CAST, RTargetRange, DAMAGE_MAGIC, false)
- STS = TargetSelector(TARGET_LOW_HP, S.range)
-
 
 function updater()
 local SCRIPT_NAME = "Q Ryze"
