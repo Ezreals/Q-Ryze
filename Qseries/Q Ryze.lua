@@ -11,6 +11,7 @@ Small Fixed 1.0034 5/7
 Fixed HPred 1.13 Support 1.0035 5/9
 Small Prediction Fixed 1.0036 5/19
 Packet Cast Added 1.004 6/4
+Some Bug Fixed 1.0041 6/5
 special Thanks To HTTF!
 Author qkwlqk
 Next Update Gapcloser and R SmartLogic Add
@@ -21,13 +22,14 @@ if (myHero.charName ~= "Ryze") then
 end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
-local version = "1.004"
+local version = "1.0041"
 local Author = "qkwlqk"
-local Date = "6/4"
+local Date = "6/5"
 local Thxto = "HTTF"
 local Wrange = 600
 local Erange = 600
-
+local FCharge = false
+local PStacks = 0
 
 function updater()
 local SCRIPT_NAME = "Q Ryze"
@@ -124,6 +126,7 @@ function Menu()
     if VIP_USER then
     Menu:addSubMenu("Misc", "Misc")
           Menu.Misc:addParam("UsePacket", "Use Packet", SCRIPT_PARAM_ONOFF, false)
+          --Menu.Misc:addParam("Psave", "passive saveing" SCRIPT_PARAM_ONOFF, false)
     end
     Menu:addSubMenu("Harass Settings", "Harass")
           Menu.Harass:addParam("Q", "Use Q ", SCRIPT_PARAM_ONOFF, true)
@@ -142,6 +145,7 @@ end
 function OnTick() 
   ts:update()
   Harass()
+  Pass()
   FullCombo()
   Ignite()
 end
@@ -163,9 +167,9 @@ local HarassE = Menu.Harass.E
         end
 end
         if (myHero:CanUseSpell(_Q) == READY and HarassQ) then
-        if HitChance >= Menu.HitChance.CHitChance then
     if Menu.Misc.UsePacket then
-local QPos, QHitChance = HPred:GetPredict("HP_Q", ts.target, myHero)
+local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
+        if HitChance >= Menu.HitChance.HHitChance then
       Packet("S_CAST", {spellId = _Q, toX = QPos.x, toY = QPos.z, fromX = QPos.x, fromY = QPos.z}):send()
     else
       CastSpell(_Q, QPos.x, QPos.z)
@@ -208,14 +212,16 @@ end
           CastSpell(_W)
         end
 end
-        if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
-        if HitChance >= Menu.HitChance.CHitChance then
+if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
+  local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
+  if QHitChance >= Menu.HitChance.CHitChance then
     if Menu.Misc.UsePacket then
-local QPos, QHitChance = HPred:GetPredict("HP_Q", ts.target, myHero)
       Packet("S_CAST", {spellId = _Q, toX = QPos.x, toY = QPos.z, fromX = QPos.x, fromY = QPos.z}):send()
     else
       CastSpell(_Q, QPos.x, QPos.z)
     end
+  end
+end
         end
         if (myHero:CanUseSpell(_E) == READY and ComboE) then
         if Menu.Misc.UsePacket then
@@ -223,8 +229,6 @@ local QPos, QHitChance = HPred:GetPredict("HP_Q", ts.target, myHero)
     else
           CastSpell(_E)
         end
-end
-end
 end
 end
 end
@@ -353,5 +357,45 @@ end
 end
 
 function SpellData()
-HP_Q = HPSkillshot({collisionM = true, collisionH = false, type = "DelayLine", delay = .25, range = 900, width = 175, speed = 1700})
+HP_Q = HPSkillshot({collisionM = true, collisionH = true, type = "DelayLine", delay = .25, range = 900, width = 175, speed = 1700})
+end
+
+function OnUpdateBuff(unit, buff, stacks)
+  if buff.name =="ryzepassivestack" then
+  Pstacks = stacks
+  end
+  if buff.name == "ryzepassivecharged" then
+  FCharge = true
+  end
+end
+function TargetHaveBuff(buffName, target) --function to check our buffs
+    assert(type(buffName) == "string" or type(buffName) == "table", "TargetHaveBuff: wrong argument types (<string> or <table of string> expected for buffName)")
+    local target = target or player
+    for i = 1, target.buffCount do
+        local tBuff = target:getBuff(i)
+        if BuffIsValid(tBuff) then
+            if type(buffName) == "string" then
+                if tBuff.name:lower() == buffName:lower() then return true end
+            else
+                for _, sBuff in ipairs(buffName) do
+                    if tBuff.name:lower() == sBuff:lower() then return true end
+                end
+            end
+        end
+    end
+    return false
+end
+
+function Pass()
+  if not TargetHaveBuff("ryzepassivestack", myHero) or TargetHaveBuff("ryzepassivecharged", myHero) then
+    PStacks = 0
+  end
+  if not TargetHaveBuff("ryzepassivecharged", myHero) then
+    FCharge = false
+  end
+end
+
+function Psave()
+--if os.clock() 9.9 
+--CastSpell(_Q, mousePos.x, mousePos.z)
 end
