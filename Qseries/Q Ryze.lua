@@ -166,15 +166,16 @@ local HarassE = Menu.Harass.E
           CastSpell(_W)
         end
 end
-        if (myHero:CanUseSpell(_Q) == READY and HarassQ) then
+if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
+  local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
+  if QHitChance >= Menu.HitChance.CHitChance then
     if Menu.Misc.UsePacket then
-local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
-        if HitChance >= Menu.HitChance.HHitChance then
       Packet("S_CAST", {spellId = _Q, toX = QPos.x, toY = QPos.z, fromX = QPos.x, fromY = QPos.z}):send()
     else
       CastSpell(_Q, QPos.x, QPos.z)
     end
-        end
+  end
+end
         if (myHero:CanUseSpell(_E) == READY and HarassE) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _E}):send()
@@ -186,7 +187,7 @@ local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
    end
   end
  end
-end
+
 
 
 function FullCombo()
