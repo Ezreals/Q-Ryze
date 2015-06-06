@@ -22,10 +22,9 @@ Next Update Gapcloser and R SmartLogic Add
 if (myHero.charName ~= "Ryze") then 
   return 
 end
-local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
-local enemy = ts.target
+local ts 
 local ignite = nil
-local version = "1.0043"
+local version = "1.0044"
 local Author = "qkwlqk"
 local Date = "6/6"
 local Thxto = "HTTF"
@@ -100,6 +99,7 @@ function OnLoad()
   lib()
   Orbload()
   PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
+  ts= TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
   Update()
   Menu()
   FindSummoners()
@@ -162,7 +162,7 @@ local HarassE = Menu.Harass.E
       if (myHero:GetDistance(ts.target) <= 900) then
         if (myHero:CanUseSpell(_W) == READY and HarassW) then
         if Menu.Misc.UsePacket then
-        Packet("S_CAST", {spellId = _W, targetNetworkid = ts.target.networkID}):send()
+        Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
     else
           CastSpell(_W, ts.target)
         end
@@ -207,9 +207,9 @@ local ComboR = Menu.Combo.R
           CastSpell(_R)
         end
 end
-        if (myHero:CanUseSpell(_W) == READY and HarassW) then
+        if (myHero:CanUseSpell(_W) == READY and ComboW) then
         if Menu.Misc.UsePacket then
-        Packet("S_CAST", {spellId = _W, targetNetworkid = ts.target.networkID}):send()
+        Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
     else
           CastSpell(_W, ts.target)
         end
@@ -225,7 +225,7 @@ if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
   end
 end
         end
-        if (myHero:CanUseSpell(_E) == READY and HarassE) then
+        if (myHero:CanUseSpell(_E) == READY and ComboE) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _E, targetNetworkId = ts.target.networkID}):send()
     else
