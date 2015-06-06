@@ -12,6 +12,7 @@ Fixed HPred 1.13 Support 1.0035 5/9
 Small Prediction Fixed 1.0036 5/19
 Packet Cast Added 1.004 6/4
 Some Bug Fixed 1.0041 6/5
+1.0042 Key Changed 6/6
 special Thanks To HTTF!
 Author qkwlqk
 Next Update Gapcloser and R SmartLogic Add
