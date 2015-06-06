@@ -23,9 +23,9 @@ if (myHero.charName ~= "Ryze") then
 end
 local ts = TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
 local ignite = nil
-local version = "1.0041"
+local version = "1.0042"
 local Author = "qkwlqk"
-local Date = "6/5"
+local Date = "6/6"
 local Thxto = "HTTF"
 local Wrange = 600
 local Erange = 600
