@@ -14,6 +14,7 @@ Packet Cast Added 1.004 6/4
 Some Bug Fixed 1.0041 6/5
 1.0042 Key Changed 6/6
 1.0043 W E BUG Fixed 6/6
+1.0045 6/7 Target Bug Fixed --< NotYet.. but Test..
 special Thanks To HTTF!
 Author qkwlqk
 Next Update Gapcloser and R SmartLogic Add
@@ -22,11 +23,12 @@ Next Update Gapcloser and R SmartLogic Add
 if (myHero.charName ~= "Ryze") then 
   return 
 end
-local ts 
+MyHero = GetMyHero()
+local ts
 local ignite = nil
-local version = "1.0044"
+local version = "1.0045"
 local Author = "qkwlqk"
-local Date = "6/6"
+local Date = "6/7"
 local Thxto = "HTTF"
 local FCharge = false
 local PStacks = 0
@@ -99,7 +101,7 @@ function OnLoad()
   lib()
   Orbload()
   PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
-  ts= TargetSelector(TARGET_LOW_HP_PRIORITY, 900)
+  ts= TargetSelector(TARGET_LESS_CAST_PRIORITY, 900)
   Update()
   Menu()
   FindSummoners()
@@ -168,6 +170,7 @@ local HarassE = Menu.Harass.E
         end
 end
 if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
+if (Menu.harass) then
   local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
   if QHitChance >= Menu.HitChance.CHitChance then
     if Menu.Misc.UsePacket then
@@ -177,7 +180,9 @@ if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
     end
   end
 end
+end
         if (myHero:CanUseSpell(_E) == READY and HarassE) then
+        if (Menu.harass) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _E, targetNetworkId = ts.target.networkID}):send()
     else
@@ -188,7 +193,7 @@ end
    end
   end
  end
-
+end
 
 
 function FullCombo()
@@ -206,15 +211,19 @@ local ComboR = Menu.Combo.R
     else
           CastSpell(_R)
         end
+        end
 end
         if (myHero:CanUseSpell(_W) == READY and ComboW) then
+        if (Menu.fullcombo) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
     else
           CastSpell(_W, ts.target)
         end
 end
+end
 if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
+if (Menu.fullcombo) then
   local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
   if QHitChance >= Menu.HitChance.CHitChance then
     if Menu.Misc.UsePacket then
@@ -223,15 +232,17 @@ if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
       CastSpell(_Q, QPos.x, QPos.z)
     end
   end
+  end
 end
         end
         if (myHero:CanUseSpell(_E) == READY and ComboE) then
+        if (Menu.fullcombo) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _E, targetNetworkId = ts.target.networkID}):send()
     else
           CastSpell(_E, ts.target)
         end
-end
+        end
 end
 end
 end
