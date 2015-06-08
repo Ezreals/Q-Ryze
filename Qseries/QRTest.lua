@@ -15,6 +15,7 @@ Some Bug Fixed 1.0041 6/5
 1.0042 Key Changed 6/6
 1.0043 W E BUG Fixed 6/6
 1.0045 6/7 Target Bug Fixed --< NotYet.. but Test..
+Harass Q Fixed 1.0046 6/9
 special Thanks To HTTF!
 Author qkwlqk
 Next Update Gapcloser and R SmartLogic Add
@@ -26,9 +27,9 @@ end
 MyHero = GetMyHero()
 local ts
 local ignite = nil
-local version = "0.1T"
+local version = "0.2T"
 local Author = "qkwlqk"
-local Date = "6/7"
+local Date = "6/9"
 local Thxto = "HTTF"
 local FCharge = false
 local PStacks = 0
@@ -169,10 +170,10 @@ local HarassE = Menu.Harass.E
           CastSpell(_W, ts.target)
         end
 end
-if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
+if (myHero:CanUseSpell(_Q) == READY and HarassQ) then
 if (Menu.harass) then
   local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
-  if QHitChance >= Menu.HitChance.CHitChance then
+  if QHitChance >= Menu.HitChance.HHitChance then
     if Menu.Misc.UsePacket then
       Packet("S_CAST", {spellId = _Q, toX = QPos.x, toY = QPos.z, fromX = QPos.x, fromY = QPos.z}):send()
     else
