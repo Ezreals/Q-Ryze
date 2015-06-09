@@ -27,7 +27,7 @@ end
 MyHero = GetMyHero()
 local ts
 local ignite = nil
-local version = "0.2T"
+local version = "0.3T"
 local Author = "qkwlqk"
 local Date = "6/9"
 local Thxto = "HTTF"
