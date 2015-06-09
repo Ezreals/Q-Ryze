@@ -102,7 +102,7 @@ function OnLoad()
   lib()
   Orbload()
   PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
-  ts= TargetSelector(TARGET_LESS_CAST_PRIORITY, 600)
+  ts= TargetSelector(TARGET_LESS_CAST_PRIORITY, 545)
   Update()
   Menu()
   FindSummoners()
@@ -162,7 +162,7 @@ local HarassE = Menu.Harass.E
 
   if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
     if (Menu.harass) then
-      if (myHero:GetDistance(ts.target) <= 600) then
+      if (myHero:GetDistance(ts.target) <= 545) then
         if (myHero:CanUseSpell(_W) == READY and HarassW) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
@@ -205,7 +205,7 @@ local ComboR = Menu.Combo.R
 
   if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
     if (Menu.fullcombo) then
-      if (myHero:GetDistance(ts.target) <= 600) then
+      if (myHero:GetDistance(ts.target) <= 545) then
         if (myHero:CanUseSpell(_R) == READY and ComboR) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _R}):send()
