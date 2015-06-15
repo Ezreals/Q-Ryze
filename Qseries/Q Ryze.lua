@@ -16,6 +16,7 @@ Some Bug Fixed 1.0041 6/5
 1.0043 W E BUG Fixed 6/6
 1.0045 6/7 Target Bug Fixed --< NotYet.. but Test..
 Harass Q BugFixed 1.0046 6/9
+Some Prediction Change 6/16 1.0047
 special Thanks To HTTF!
 Author qkwlqk
 Next Update Gapcloser and R SmartLogic Add
@@ -27,9 +28,9 @@ end
 MyHero = GetMyHero()
 local ts
 local ignite = nil
-local version = "1.0046"
+local version = "1.0047"
 local Author = "qkwlqk"
-local Date = "6/9"
+local Date = "6/16"
 local Thxto = "HTTF"
 local FCharge = false
 local PStacks = 0
