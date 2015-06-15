@@ -99,9 +99,9 @@ end
 
 
 function OnLoad()
+	PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
   lib()
   Orbload()
-  PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
   Menu()
   ts= TargetSelector(TARGET_LESS_CAST_PRIORITY, Menu.Combo.Trange)
   qts= TargetSelector(TARGET_LESS_CAST_PRIORITY, Menu.Harass.Crange)
