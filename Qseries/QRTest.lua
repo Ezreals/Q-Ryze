@@ -199,54 +199,79 @@ end
 
 
 function FullCombo()
-local ComboQ = Menu.Combo.Q
-local ComboW = Menu.Combo.W
-local ComboE = Menu.Combo.E
-local ComboR = Menu.Combo.R
 
+  local ComboQ = Menu.Combo.Q
+  local ComboW = Menu.Combo.W
+  local ComboE = Menu.Combo.E
+  local ComboR = Menu.Combo.R
+  
   if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
+  
     if (Menu.fullcombo) then
-        if (myHero:CanUseSpell(_R) == READY and ComboR) then
+    
+      if (myHero:CanUseSpell(_R) == READY and ComboR) then
+      
         if Menu.Misc.UsePacket then
-        Packet("S_CAST", {spellId = _R}):send()
-    else
+          Packet("S_CAST", {spellId = _R}):send()
+        else
           CastSpell(_R)
         end
-        end
-end
-        if (myHero:CanUseSpell(_W) == READY and ComboW) then
-        if (Menu.fullcombo) then
+        
+      end
+      
+    end
+    
+    if (myHero:CanUseSpell(_W) == READY and ComboW) then
+    
+      if (Menu.fullcombo) then
+      
         if Menu.Misc.UsePacket then
-        Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
-    else
+          Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
+        else
           CastSpell(_W, ts.target)
         end
-end
-end
-if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
-if (Menu.fullcombo) then
-  local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
-  if QHitChance >= Menu.HitChance.CHitChance then
-    if Menu.Misc.UsePacket then
-      Packet("S_CAST", {spellId = _Q, toX = QPos.x, toY = QPos.z, fromX = QPos.x, fromY = QPos.z}):send()
-    else
-      CastSpell(_Q, QPos.x, QPos.z)
+        
+      end
+      
     end
-  end
-  end
-end
+    
+    if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
+    
+      if (Menu.fullcombo) then
+      
+        local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
+        
+        if QHitChance >= Menu.HitChance.CHitChance then
+        
+          if Menu.Misc.UsePacket then
+            Packet("S_CAST", {spellId = _Q, toX = QPos.x, toY = QPos.z, fromX = QPos.x, fromY = QPos.z}):send()
+          else
+            CastSpell(_Q, QPos.x, QPos.z)
+          end
+        
         end
-        if (myHero:CanUseSpell(_E) == READY and ComboE) then
-        if (Menu.fullcombo) then
+        
+      end
+      
+    end
+    
+    if (myHero:CanUseSpell(_E) == READY and ComboE) then
+    
+      if (Menu.fullcombo) then
+      
         if Menu.Misc.UsePacket then
-        Packet("S_CAST", {spellId = _E, targetNetworkId = ts.target.networkID}):send()
-    else
+          Packet("S_CAST", {spellId = _E, targetNetworkId = ts.target.networkID}):send()
+        else
           CastSpell(_E, ts.target)
         end
-        end
+        
+      end
+      
+    end
+    
+  end
+  
 end
-end
-
 function FindSummoners()
   if myHero:GetSpellData(SUMMONER_1).name:find("summonerdot") then 
     ignite = SUMMONER_1
