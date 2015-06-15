@@ -371,8 +371,8 @@ end
 end
 
 function SpellData()
-HP_Q = HPSkillshot({collisionM = false, collisionH = false, type = "DelayLine", delay = .25, range = 900, width = 175, speed = 1700})
-HP_Q2 = HPSkillshot({collisionM = true, collisionH = false, type = "DelayLine", delay = .25, range = 900, width = 175, speed = 1700})
+HP_Q = HPSkillshot({collisionM = false, collisionH = false, type = "DelayLine", delay = .25, range = 900, width = 100, speed = 1700})
+HP_Q2 = HPSkillshot({collisionM = true, collisionH = false, type = "DelayLine", delay = .25, range = 900, width = 100, speed = 1700})
 end
 
 function OnUpdateBuff(unit, buff, stacks)
