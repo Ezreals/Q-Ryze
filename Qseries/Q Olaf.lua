@@ -145,9 +145,9 @@ local HarassE = Menu.Harass.E
         if (myHero:CanUseSpell(_W) == READY and HarassW) then
         if Menu.Misc.UsePacket then
             if (MyHero:GetDistance(ts.target) <= 175) then
-        Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
+        Packet("S_CAST", {spellId = _W}):send()
     else
-          CastSpell(_W, ts.target)
+          CastSpell(_W)
         end
 end
 end
@@ -205,9 +205,9 @@ function FullCombo()
       if (Menu.fullcombo) then
           if (MyHero:GetDistance(ts.target) <= 175) then
         if Menu.Misc.UsePacket then
-          Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
+          Packet("S_CAST", {spellId = _W}):send()
         else
-          CastSpell(_W, ts.target)
+          CastSpell(_W)
         end
         end
       end
