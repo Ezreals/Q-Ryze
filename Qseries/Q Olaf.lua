@@ -2,7 +2,7 @@
 
 update log
 Q Olaf First realese 1.0 6/27
-1.1 Q Fixed 
+1.1 Q Fixed 1
 special Thanks To HTTF!
 Author qkwlqk
 ]]
