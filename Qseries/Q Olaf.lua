@@ -2,7 +2,7 @@
 
 update log
 Q Olaf First realese 1.0 6/27
-
+1.1 Q Fixed 
 special Thanks To HTTF!
 Author qkwlqk
 ]]
@@ -12,7 +12,7 @@ if (myHero.charName ~= "Olaf") then
 end
 MyHero = GetMyHero()
 local ignite = nil
-local version = "1"
+local version = "1.1"
 local Author = "qkwlqk"
 local Date = "6/27"
 local Thxto = "HTTF"
@@ -88,7 +88,6 @@ function OnLoad()
   Orbload()
   Menu()
   ts= TargetSelector(TARGET_LESS_CAST_PRIORITY, 1000)
-  Update()
   FindSummoners()
   HPred = HPrediction()
   SpellData()
