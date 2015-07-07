@@ -17,7 +17,8 @@ Some Bug Fixed 1.0041 6/5
 1.0045 6/7 Target Bug Fixed --< NotYet.. but Test..
 Harass Q Fixed 1.0046 6/9
 1.005 Many Updated.. 6/25 5.12 Patch Support
-
+1.006 Lastest Update Thank you For Using This Scripts
+Support Stopped Will Be Reborn
 special Thanks To HTTF!
 Author qkwlqk
 Next Update Gapcloser and R SmartLogic Add
@@ -28,9 +29,9 @@ if (myHero.charName ~= "Ryze") then
 end
 MyHero = GetMyHero()
 local ignite = nil
-local version = "1.005"
+local version = "1.006"
 local Author = "qkwlqk"
-local Date = "6/25"
+local Date = "7/8"
 local Thxto = "HTTF"
 local FCharge = false
 local PStacks = 0
@@ -101,12 +102,13 @@ end
 
 
 function OnLoad()
-	PrintChat("<font color=\"#D1B2FF\">Q Ryze ..version..successfully Loaded!")
+  PrintChat("<font color=\"#D1B2FF\">Q Ryze successfully Loaded!")
+  PrintChat("<font color=\"#D1B2FF\">Q Ryze Last Supported Version successfully Loaded! Thanks for Use My Scripts!")
   lib()
   Orbload()
   Menu()
-  ts= TargetSelector(TARGET_LESS_CAST_PRIORITY, Menu.Combo.Trange)
-  qts= TargetSelector(TARGET_LESS_CAST_PRIORITY, Menu.Harass.Crange)
+  ts= TargetSelector(TARGET_LESS_CAST_PRIORITY, 1100)
+  qts= TargetSelector(TARGET_LESS_CAST_PRIORITY, 1100)
   Update()
   FindSummoners()
   HPred = HPrediction()
@@ -133,19 +135,16 @@ function Menu()
     if VIP_USER then
     Menu:addSubMenu("Misc", "Misc")
           Menu.Misc:addParam("UsePacket", "Use Packet", SCRIPT_PARAM_ONOFF, false)
-          --Menu.Misc:addParam("Psave", "passive saveing" SCRIPT_PARAM_ONOFF, false)
-    end
+					end
     Menu:addSubMenu("Harass Settings", "Harass")
           Menu.Harass:addParam("Q", "Use Q ", SCRIPT_PARAM_ONOFF, true)
           Menu.Harass:addParam("W", "Use W ", SCRIPT_PARAM_ONOFF, true)
           Menu.Harass:addParam("E", "Use E ", SCRIPT_PARAM_ONOFF, true)
-          Menu.Harass:addParam("Crange", "Target Range",SCRIPT_PARAM_SLICE, 600, 500, 900, 50)
     Menu:addSubMenu("Combo Settings", "Combo")
           Menu.Combo:addParam("Q", "Use Q ", SCRIPT_PARAM_ONOFF, true)
           Menu.Combo:addParam("W", "Use W ", SCRIPT_PARAM_ONOFF, true)
           Menu.Combo:addParam("E", "Use E ", SCRIPT_PARAM_ONOFF, true)
           Menu.Combo:addParam("R", "Use R ", SCRIPT_PARAM_ONOFF, true)
-          Menu.Combo:addParam("Trange", "Target Range",SCRIPT_PARAM_SLICE, 600, 500, 900, 50)
 end
 
 
@@ -167,10 +166,12 @@ local HarassE = Menu.Harass.E
   if (qts.target ~= nil) and not (qts.target.dead) and (qts.target.visible) then
     if (Menu.harass) then
         if (myHero:CanUseSpell(_W) == READY and HarassW) then
+        if (MyHero:GetDistance(ts.target) <= 585) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _W, targetNetworkId = qts.target.networkID}):send()
     else
           CastSpell(_W, qts.target)
+        end
         end
 end
 if (myHero:CanUseSpell(_Q) == READY and HarassQ) then
@@ -188,9 +189,11 @@ end
         if (myHero:CanUseSpell(_E) == READY and HarassE) then
         if (Menu.harass) then
         if Menu.Misc.UsePacket then
+        if (MyHero:GetDistance(ts.target) <= 585) then
         Packet("S_CAST", {spellId = _E, targetNetworkId = qts.target.networkID}):send()
     else
           CastSpell(_E, qts.target)
+        end
         end
      end
     end
@@ -214,31 +217,35 @@ function FullCombo()
       if (myHero:CanUseSpell(_R) == READY and ComboR) then
       
         if Menu.Misc.UsePacket then
+        if (MyHero:GetDistance(ts.target) <= 585) then
           Packet("S_CAST", {spellId = _R}):send()
         else
           CastSpell(_R)
         end
-        
+        end
+        end
       end
       
     end
     
+    if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
     if (myHero:CanUseSpell(_W) == READY and ComboW) then
     
       if (Menu.fullcombo) then
       
         if Menu.Misc.UsePacket then
+        if (MyHero:GetDistance(ts.target) <= 585) then
           Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
         else
           CastSpell(_W, ts.target)
         end
-        
+        end
       end
-      
+      end
     end
     
     if (myHero:CanUseSpell(_Q) == READY and ComboQ) then
-    
+      if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
       if (Menu.fullcombo) then
       
         local QPos, QHitChance = HPred:GetPredict(HP_Q, ts.target, myHero)
@@ -250,18 +257,19 @@ function FullCombo()
           else
             CastSpell(_Q, QPos.x, QPos.z)
           end
-        
+        end
         end
         
       end
       
     end
-    
+          if (ts.target ~= nil) and not (ts.target.dead) and (ts.target.visible) then
     if (myHero:CanUseSpell(_E) == READY and ComboE) then
     
       if (Menu.fullcombo) then
       
         if Menu.Misc.UsePacket then
+        if (MyHero:GetDistance(ts.target) <= 585) then
           Packet("S_CAST", {spellId = _E, targetNetworkId = ts.target.networkID}):send()
         else
           CastSpell(_E, ts.target)
@@ -270,7 +278,7 @@ function FullCombo()
       end
       
     end
-    
+    end
   end
   
 end
@@ -302,7 +310,7 @@ end
 function OnDraw()
   if (myHero.dead) then return end
   if (Menu.Draw.draw) then
-    DrawCircle(myHero.x, myHero.y, myHero.z, 900, RGB(255, 0, 0))
+    DrawCircle(myHero.x, myHero.y, myHero.z, 950, RGB(255, 0, 0))
   end
 end
 
@@ -398,8 +406,8 @@ end
 end
 
 function SpellData()
-HP_Q = HPSkillshot({collisionM = false, collisionH = false, type = "DelayLine", delay = .25, range = 900, width = 110, speed = 1700})
-HP_Q2 = HPSkillshot({collisionM = true, collisionH = false, type = "DelayLine", delay = .25, range = 900, width = 110, speed = 1700})
+HP_Q = HPSkillshot({collisionM = false, collisionH = false, type = "DelayLine", delay = .25, range = 925, width = 110, speed = 1700})
+HP_Q2 = HPSkillshot({collisionM = true, collisionH = false, type = "DelayLine", delay = .25, range = 925, width = 110, speed = 1700})
 end
 
 function OnUpdateBuff(unit, buff, stacks)
@@ -435,9 +443,4 @@ function Pass()
   if not TargetHaveBuff("ryzepassivecharged", myHero) then
     FCharge = false
   end
-end
-
-function Psave()
---if os.clock() 9.9 
---CastSpell(_Q, mousePos.x, mousePos.z)
 end
