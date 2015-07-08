@@ -19,6 +19,7 @@ Harass Q Fixed 1.0046 6/9
 1.005 Many Updated.. 6/25 5.12 Patch Support
 1.006 Lastest Update Thank you For Using This Scripts
 Support Stopped Will Be Reborn
+1.0061 HotFix
 special Thanks To HTTF!
 Author qkwlqk
 Next Update Gapcloser and R SmartLogic Add
@@ -29,7 +30,7 @@ if (myHero.charName ~= "Ryze") then
 end
 MyHero = GetMyHero()
 local ignite = nil
-local version = "1.006"
+local version = "1.0061"
 local Author = "qkwlqk"
 local Date = "7/8"
 local Thxto = "HTTF"
@@ -166,7 +167,7 @@ local HarassE = Menu.Harass.E
   if (qts.target ~= nil) and not (qts.target.dead) and (qts.target.visible) then
     if (Menu.harass) then
         if (myHero:CanUseSpell(_W) == READY and HarassW) then
-        if (MyHero:GetDistance(ts.target) <= 585) then
+        if (MyHero:GetDistance(qts.target) <= 585) then
         if Menu.Misc.UsePacket then
         Packet("S_CAST", {spellId = _W, targetNetworkId = qts.target.networkID}):send()
     else
@@ -189,7 +190,7 @@ end
         if (myHero:CanUseSpell(_E) == READY and HarassE) then
         if (Menu.harass) then
         if Menu.Misc.UsePacket then
-        if (MyHero:GetDistance(ts.target) <= 585) then
+        if (MyHero:GetDistance(qts.target) <= 585) then
         Packet("S_CAST", {spellId = _E, targetNetworkId = qts.target.networkID}):send()
     else
           CastSpell(_E, qts.target)
