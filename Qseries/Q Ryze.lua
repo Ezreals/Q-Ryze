@@ -189,8 +189,8 @@ end
 end
         if (myHero:CanUseSpell(_E) == READY and HarassE) then
         if (Menu.harass) then
+				if (MyHero:GetDistance(qts.target) <= 585) then
         if Menu.Misc.UsePacket then
-        if (MyHero:GetDistance(qts.target) <= 585) then
         Packet("S_CAST", {spellId = _E, targetNetworkId = qts.target.networkID}):send()
     else
           CastSpell(_E, qts.target)
@@ -216,9 +216,9 @@ function FullCombo()
     if (Menu.fullcombo) then
     
       if (myHero:CanUseSpell(_R) == READY and ComboR) then
-      
-        if Menu.Misc.UsePacket then
         if (MyHero:GetDistance(ts.target) <= 585) then
+        if Menu.Misc.UsePacket then
+
           Packet("S_CAST", {spellId = _R}):send()
         else
           CastSpell(_R)
@@ -233,9 +233,9 @@ function FullCombo()
     if (myHero:CanUseSpell(_W) == READY and ComboW) then
     
       if (Menu.fullcombo) then
-      
-        if Menu.Misc.UsePacket then
         if (MyHero:GetDistance(ts.target) <= 585) then
+        if Menu.Misc.UsePacket then
+
           Packet("S_CAST", {spellId = _W, targetNetworkId = ts.target.networkID}):send()
         else
           CastSpell(_W, ts.target)
@@ -268,9 +268,9 @@ function FullCombo()
     if (myHero:CanUseSpell(_E) == READY and ComboE) then
     
       if (Menu.fullcombo) then
-      
+      if (MyHero:GetDistance(ts.target) <= 585) then
         if Menu.Misc.UsePacket then
-        if (MyHero:GetDistance(ts.target) <= 585) then
+        
           Packet("S_CAST", {spellId = _E, targetNetworkId = ts.target.networkID}):send()
         else
           CastSpell(_E, ts.target)
