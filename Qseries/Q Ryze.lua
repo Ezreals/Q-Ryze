@@ -30,7 +30,7 @@ if (myHero.charName ~= "Ryze") then
 end
 MyHero = GetMyHero()
 local ignite = nil
-local version = "1.0061"
+local version = "1.0062"
 local Author = "qkwlqk"
 local Date = "7/8"
 local Thxto = "HTTF"
